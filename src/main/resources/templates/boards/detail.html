@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/layout :: head(${board.title})}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar(${user}, ${categories})}"></div>
+<main class="container container-narrow py-4">
+    <!-- 게시글 제목 -->
+    <h3 th:text="${board.title}">게시글 제목</h3>
+
+    <!-- 게시글 메타 정보 -->
+    <div class="text-muted mb-3">
+        <span th:text="${board.user.nickname}">작성자</span> ·
+        <span th:text="${#temporals.format(board.createdAt,'yyyy-MM-dd HH:mm')}">작성 시간</span> ·
+        조회 <span th:text="${board.viewCount}">0</span>
+    </div>
+
+    <article class="mb-4">
+        <div class="border rounded p-3" style="min-height: 400px;" th:utext="${board.content}">게시글 내용</div>
+    </article>
+
+    <!-- 좋아요, 스크랩, 수정, 삭제 버튼 -->
+    <div class="d-flex gap-2 mb-4">
+        <form th:action="@{|/boards/${board.id}/like|}" method="post">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <button class="btn btn-outline-primary" type="submit">좋아요
+                <span class="badge text-bg-primary ms-1" th:text="${board.likeCount}">0</span>
+            </button>
+        </form>
+        <form th:action="@{|/boards/${board.id}/scrap|}" method="post">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <button class="btn btn-outline-success" type="submit">스크랩
+                <span class="badge text-bg-success ms-1" th:text="${board.scrapCount}">0</span>
+            </button>
+        </form>
+        <div th:if="${board.user.id == user.id}">
+            <a class="btn btn-outline-secondary" th:href="@{|/boards/${board.id}/edit?userId=${user.id}|}">수정</a>
+            <form class="d-inline" th:action="@{|/boards/${board.id}/delete|}" method="post">
+                <input type="hidden" name="userId" th:value="${user.id}">
+                <button class="btn btn-outline-danger" type="submit">삭제</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 댓글 목록 섹션 -->
+    <section>
+        <h5 class="mb-3">댓글</h5>
+
+        <!-- 댓글 작성 폼 -->
+        <form th:action="@{|/boards/${board.id}/comments|}" method="post" th:object="${commentDto}">
+            <input type="hidden" name="boardId" th:value="${board.id}">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <textarea th:field="*{content}" class="form-control mb-2" rows="3" placeholder="댓글을 입력하세요"></textarea>
+            <button class="btn btn-primary" type="submit">등록</button>
+            <div class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">댓글 내용 오류</div>
+        </form>
+
+        <!-- 댓글 목록 -->
+        <ul class="list-group mt-4">
+            <li class="list-group-item" th:each="c : ${comments}">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong th:text="${c.user.nickname}">닉</strong>
+                        <small class="text-muted ms-2" th:text="${#temporals.format(c.createdAt,'yyyy-MM-dd HH:mm')}">시간</small>
+                        <div th:text="${c.content}">내용</div>
+                    </div>
+                    <!-- 삭제 버튼 -->
+                    <form th:if="${c.user.id == user.id}" th:action="@{|/comments/${c.id}/delete|}" method="post">
+                        <input type="hidden" name="boardId" th:value="${board.id}">
+                        <input type="hidden" name="userId" th:value="${user.id}">
+                        <input type="hidden" name="content" th:value="${c.content}">
+                        <button class="btn btn-sm btn-outline-danger" type="submit">삭제</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>

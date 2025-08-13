@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/layout :: head('마이페이지')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar(${user}, ${categories})}"></div>
+<main class="container container-narrow py-4">
+    <h3 class="mb-4">마이페이지</h3>
+    <div class="list-group">
+        <a class="list-group-item list-group-item-action" th:href="@{|/mypage/posts?userId=${user.id}|}">내가 쓴 글</a>
+        <a class="list-group-item list-group-item-action" th:href="@{|/mypage/comments?userId=${user.id}|}">내가 쓴 댓글</a>
+        <a class="list-group-item list-group-item-action" th:href="@{|/mypage/scraps?userId=${user.id}|}">스크랩</a>
+        <a class="list-group-item list-group-item-action" th:href="@{|/mypage/likes?userId=${user.id}|}">좋아요</a>
+        <a class="list-group-item list-group-item-action text-danger" th:href="@{|/auth/withdraw?userId=${user.id}|}">회원 탈퇴</a>
+    </div>
+</main>
+</body>
+</html>

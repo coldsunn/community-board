@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/layout :: head('올게시판')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar(${user}, ${categories})}"></div>
+<main class="container container-narrow py-4">
+    <div class="text-center py-5">
+        <!-- 사용자 학과와 연동된 커뮤니티 이름 -->
+        <h3 class="mb-3" th:text="${user.department.displayName} + ' 커뮤니티'">학과 커뮤니티</h3>
+        <p class="text-muted">상단 네비에서 게시판을 선택하세요.</p>
+    </div>
+</main>
+</body>
+</html>

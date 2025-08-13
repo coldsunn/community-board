@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Community</title>
+  <!-- Bootstrap CSS 경로 수정 -->
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <style>
+    .container-narrow { max-width: 960px; }
+    .fixed-nav { position: sticky; top: 0; z-index: 1030; }
+  </style>
+</head>
+<body>
+<div th:replace="${'content'}"></div>
+<!-- Bootstrap JS 경로 수정 -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

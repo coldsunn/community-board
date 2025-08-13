@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/layout :: head('게시판')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar(${user}, ${categories})}"></div>
+<main class="container container-narrow py-4">
+    <div class="text-center mb-4">
+        <h3 class="m-0" th:text="${user.department.displayName} + ' ' + ${category.displayName}">게시판</h3>
+    </div>
+
+    <!-- 게시글 목록 테이블 -->
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+        <tr>
+            <th class="text-center" style="width: 55%;">제목</th>
+            <th class="text-center" style="width: 15%;">작성자</th>
+            <th class="text-center" style="width: 15%;">작성일</th>
+            <th class="text-center" style="width: 15%;">조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${boards}">
+            <td>
+                <a th:href="@{|/boards/${board.id}?userId=${user.id}|}" class="d-flex align-items-center text-decoration-none">
+                    <span th:text="${board.title}">게시글 제목</span>
+                </a>
+            </td>
+            <td class="text-center" th:text="${board.user.nickname}">닉네임</td>
+            <td class="text-center" th:text="${#temporals.format(board.createdAt,'yyyy-MM-dd HH:mm')}">2025-08-12 10:00</td>
+            <td class="text-center" th:text="${board.viewCount}">0</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <!-- 검색 폼을 왼쪽으로 옮김 -->
+        <form class="d-flex" th:action="@{/boards/search}" method="get">
+            <input type="hidden" name="dept" th:value="${user.department.name()}">
+            <input type="hidden" name="categoryId" th:value="${category.id}">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <input class="form-control me-2" name="q" th:value="${q}" placeholder="제목/작성자 검색" style="width: 250px;">
+            <button class="btn btn-outline-secondary" type="submit">검색</button>
+        </form>
+
+        <!-- 글쓰기 버튼을 오른쪽으로 옮김 -->
+        <a class="btn btn-primary" th:href="@{|/boards/new?userId=${user.id}&categoryId=${category.id}|}">글쓰기</a>
+    </div>
+</main>
+</body>
+</html>

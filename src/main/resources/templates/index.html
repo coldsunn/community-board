@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="fragments/layout :: head('올게시판')"></head>
+<body style="background-color: #f8f9fa;">
+<div class="d-flex align-items-center justify-content-center" style="min-height:100vh;">
+    <main class="container text-center bg-white rounded shadow p-5" style="max-width: 600px;">
+        <div class="display-6 mb-4">☀️</div>
+        <h1 class="display-3 mb-2">올게시판</h1>
+        <p class="fs-5 text-muted mb-4">우리 학과의 모든 정보 얻기</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a class="btn btn-primary btn-lg" href="/auth/login">로그인</a>
+            <a class="btn btn-outline-secondary btn-lg" href="/auth/join">회원가입</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

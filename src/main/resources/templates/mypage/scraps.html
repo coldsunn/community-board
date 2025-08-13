@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/layout :: head('스크랩한 게시글')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar(${user}, ${categories})}"></div>
+<main class="container container-narrow py-4">
+  <div class="text-center mb-4">
+    <h3 class="m-0">내가 스크랩한 게시글</h3>
+  </div>
+
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+    <tr>
+      <th class="text-center" style="width: 60%;">제목</th>
+      <th class="text-center" style="width: 25%;">작성자</th>
+      <th class="text-center" style="width: 15%;">날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${scrappedBoards}">
+      <td>
+        <a th:href="@{|/boards/${board.id}?userId=${user.id}|}" class="d-flex align-items-center text-decoration-none">
+          <span th:text="${board.title}">게시글 제목</span>
+        </a>
+      </td>
+      <td class="text-center" th:text="${board.user.nickname}">닉네임</td>
+      <td class="text-center" th:text="${#temporals.format(board.createdAt,'yyyy-MM-dd HH:mm')}">2025-08-12 10:00</td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

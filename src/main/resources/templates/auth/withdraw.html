@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head th:replace="~{fragments/layout :: head('회원 탈퇴')}"></head>
+<body class="d-flex align-items-center justify-content-center" style="min-height:100vh; background-color: #f8f9fa;">
+<main class="container container-narrow py-5">
+    <h3 class="mb-3">회원 탈퇴</h3>
+
+    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}">
+        오류 메시지
+    </div>
+    <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}">
+        성공 메시지
+    </div>
+
+    <p class="text-muted">탈퇴를 원하시면 아래 입력창에 <strong>탈퇴합니다</strong> 를 입력하세요.</p>
+    <form method="post" th:action="@{|/auth/withdraw|}">
+        <input type="hidden" name="userId" th:value="${userId}">
+        <input name="confirmText" id="confirmText" class="form-control mb-3" placeholder="탈퇴합니다" required>
+        <div class="d-flex gap-2">
+            <button class="btn btn-danger" type="submit">탈퇴</button>
+            <a class="btn btn-outline-secondary" th:href="@{|/mypage?userId=${userId}|}">취소</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>
