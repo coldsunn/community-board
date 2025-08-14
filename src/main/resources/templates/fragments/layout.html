@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title th:text="${title}">Community</title>
-  <!-- Bootstrap CSS 경로 수정 -->
   <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
   <style>
     .container-narrow { max-width: 960px; }
@@ -13,7 +12,6 @@
 </head>
 <body>
 <div th:replace="${'content'}"></div>
-<!-- Bootstrap JS 경로 수정 -->
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

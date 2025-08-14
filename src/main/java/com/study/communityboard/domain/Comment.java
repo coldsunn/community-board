@@ -15,19 +15,19 @@ public class Comment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private Long id;
+    private Long id; // 댓글 ID
 
     @Lob
     @Column(nullable = false)
-    private String content;
+    private String content; // 내용
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; // User와 다대일 단방향 연관관계
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
+    private Board board; // Board와 다대일 단방향 연관관계
 
     //생성 메서드
     public static Comment create(Board board, User user, String content) {

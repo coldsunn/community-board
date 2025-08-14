@@ -22,10 +22,12 @@ public class BoardController {
 
     private final UserService userService;
     private final BoardService boardService;
+    private final CategoryService categoryService;
     private final BoardLikeService boardLikeService;
     private final BoardScrapService boardScrapService;
     private final CommentService commentService;
 
+    // 게시판 목록으로 이동
     @GetMapping("/boards")
     public String list(@Valid @ModelAttribute BoardListDto boardListDto,
                        BindingResult bindingResult,
@@ -40,13 +42,13 @@ public class BoardController {
             return "redirect:/auth/login";
         }
 
-        Category category = boardService.getCategory(boardListDto.getCategoryId());
+        Category category = categoryService.find(boardListDto.getCategoryId());
 
         List<Board> boards = (boardListDto.getQ() != null && !boardListDto.getQ().isBlank()) ?
                 boardService.search(user.getDepartment(), boardListDto.getCategoryId(), boardListDto.getQ()) :
                 boardService.listAll(user.getDepartment(), boardListDto.getCategoryId());
 
-        List<Category> categories = boardService.getAllCategories();
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("user", user);
         model.addAttribute("category", category);
@@ -55,6 +57,7 @@ public class BoardController {
         return "boards/list";
     }
 
+    // 글쓰기로 이동
     @GetMapping("/boards/new")
     public String newForm(@ModelAttribute BoardListDto boardListDto,
                           Model model) {
@@ -63,8 +66,8 @@ public class BoardController {
             return "redirect:/auth/login";
         }
 
-        Category category = boardService.getCategory(boardListDto.getCategoryId());
-        List<Category> categories = boardService.getAllCategories();
+        Category category = categoryService.find(boardListDto.getCategoryId());
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("user", user);
         model.addAttribute("category", category);
@@ -73,6 +76,7 @@ public class BoardController {
         return "boards/new";
     }
 
+    // 글쓰기 후 게시판 목록으로 이동
     @PostMapping("/boards/new")
     public String create(@Valid @ModelAttribute("boardDto") BoardDto boardDto,
                          BindingResult bindingResult,
@@ -94,6 +98,7 @@ public class BoardController {
         return "redirect:/boards/" + newBoardId;
     }
 
+    // 게시글 상세 페이지로 이동
     @GetMapping("/boards/{boardId}")
     public String detail(@PathVariable("boardId") Long boardId,
                          @RequestParam("userId") Long userId,
@@ -112,7 +117,7 @@ public class BoardController {
         }
 
         Board board = boardService.getBoard(boardId);
-        List<Category> categories = boardService.getAllCategories();
+        List<Category> categories = categoryService.findAll();
         List<Comment> comments = commentService.listByBoard(boardId);
 
         boolean isLiked = boardLikeService.check(boardId, userId);
@@ -129,6 +134,7 @@ public class BoardController {
         return "boards/detail";
     }
 
+    // 게시글 수정하기로 이동
     @GetMapping("/boards/{boardId}/edit")
     public String editForm(@PathVariable("boardId") Long boardId,
                            @RequestParam("userId") Long userId,
@@ -139,7 +145,7 @@ public class BoardController {
         }
 
         Board board = boardService.getBoard(boardId);
-        List<Category> categories = boardService.getAllCategories();
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("user", user);
         model.addAttribute("board", board);
@@ -147,6 +153,7 @@ public class BoardController {
         return "boards/edit";
     }
 
+    // 게시글 수정 후 게시글 상세 페이지로 이동
     @PostMapping("/boards/{boardId}/edit")
     public String update(@PathVariable("boardId") Long boardId,
                          @Valid @ModelAttribute("boardDto") BoardDto boardDto,
@@ -158,7 +165,7 @@ public class BoardController {
             model.addAttribute("error", "제목과 내용을 모두 입력해주세요.");
             model.addAttribute("user", userService.getProfile(boardDto.getUserId()));
             model.addAttribute("board", boardService.getBoard(boardId));
-            model.addAttribute("categories", boardService.getAllCategories());
+            model.addAttribute("categories", categoryService.findAll());
             return "boards/edit";
         }
 
@@ -168,6 +175,7 @@ public class BoardController {
         return "redirect:/boards/" + boardId;
     }
 
+    // 게시글 좋아요
     @PostMapping("/boards/{boardId}/like")
     public String toggleLike(@PathVariable("boardId") Long boardId,
                              @RequestParam("userId") Long userId,
@@ -177,6 +185,7 @@ public class BoardController {
         return "redirect:/boards/" + boardId;
     }
 
+    // 게시글 스크랩
     @PostMapping("/boards/{boardId}/scrap")
     public String toggleScrap(@PathVariable("boardId") Long boardId,
                               @RequestParam("userId") Long userId,
@@ -186,6 +195,7 @@ public class BoardController {
         return "redirect:/boards/" + boardId;
     }
 
+    // 게시글 삭제한 후 게시판 목록으로 이동
     @PostMapping("/boards/{boardId}/delete")
     public String delete(@PathVariable("boardId") Long boardId,
                          @RequestParam("userId") Long userId,
@@ -200,6 +210,7 @@ public class BoardController {
         return "redirect:/boards";
     }
 
+    // 게시판 목록에서 검색
     @GetMapping("/boards/search")
     public String search(@RequestParam("userId") Long userId,
                          @RequestParam("categoryId") Long categoryId,
@@ -211,7 +222,7 @@ public class BoardController {
             return "redirect:/auth/login";
         }
 
-        Category category = boardService.getCategory(categoryId);
+        Category category = categoryService.find(categoryId);
 
         redirectAttributes.addAttribute("userId", user.getId());
         redirectAttributes.addAttribute("categoryId", category.getId());

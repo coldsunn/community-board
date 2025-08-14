@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -24,11 +23,14 @@ public class BoardLikeService {
     private final BoardRepository boardRepository;
     private final BoardLikeRepository boardLikeRepository;
 
+    // 좋아요 버튼 기능 구현
     public boolean toggle(Long boardId, Long userId) {
         Board board = boardRepository.findById(boardId).get();
         User user = userRepository.findById(userId).get();
 
         boolean exists = boardLikeRepository.existsByUser_IdAndBoard_Id(userId, boardId);
+
+        // 유저 당 좋아요는 한 번만 가능, 토글 형식
         if (exists) {
             boardLikeRepository.deleteByUser_IdAndBoard_Id(userId, boardId);
             board.decreaseLike();
@@ -42,11 +44,13 @@ public class BoardLikeService {
         }
     }
 
+    // 유저의 좋아요 여부 확인
     @Transactional(readOnly = true)
     public boolean check(Long boardId, Long userId) {
         return boardLikeRepository.existsByUser_IdAndBoard_Id(userId, boardId);
     }
 
+    // 유저의 좋아요 내역
     @Transactional(readOnly = true)
     public List<Board> listLikedBoards(Long userId) {
         return boardLikeRepository.findByUser_Id(userId)

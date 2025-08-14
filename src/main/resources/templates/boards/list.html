@@ -33,7 +33,6 @@
     </table>
 
     <div class="d-flex justify-content-between align-items-center mt-4">
-        <!-- 검색 폼을 왼쪽으로 옮김 -->
         <form class="d-flex" th:action="@{/boards/search}" method="get">
             <input type="hidden" name="dept" th:value="${user.department.name()}">
             <input type="hidden" name="categoryId" th:value="${category.id}">
@@ -42,8 +41,7 @@
             <button class="btn btn-outline-secondary" type="submit">검색</button>
         </form>
 
-        <!-- 글쓰기 버튼을 오른쪽으로 옮김 -->
-        <a class="btn btn-primary" th:href="@{|/boards/new?userId=${user.id}&categoryId=${category.id}|}">글쓰기</a>
+        <a th:if="${user.role.name() == 'COUNCIL' or (category.id != 1 and category.id != 2)}" class="btn btn-primary" th:href="@{|/boards/new?userId=${user.id}&categoryId=${category.id}|}">글쓰기</a>
     </div>
 </main>
 </body>

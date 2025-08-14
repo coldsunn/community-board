@@ -1,6 +1,5 @@
 package com.study.communityboard.dto;
 
-import com.study.communityboard.domain.Department;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

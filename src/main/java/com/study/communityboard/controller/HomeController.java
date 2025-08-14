@@ -2,7 +2,7 @@ package com.study.communityboard.controller;
 
 import com.study.communityboard.domain.Category;
 import com.study.communityboard.domain.User;
-import com.study.communityboard.repository.CategoryRepository;
+import com.study.communityboard.service.CategoryService;
 import com.study.communityboard.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,8 +17,9 @@ import java.util.List;
 public class HomeController {
 
     private final UserService userService;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
+    // 메인 화면 이동
     @GetMapping("/home")
     public String home(@RequestParam("userId") Long userId, Model model) {
         User user = userService.getProfile(userId);
@@ -26,13 +27,14 @@ public class HomeController {
             return "redirect:/auth/login";
         }
 
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("user", user);
         model.addAttribute("categories", categories);
         return "home";
     }
 
+    // 로그아웃 시 초기화면 이동
     @GetMapping("/logout")
     public String logout() {
         return "redirect:/";

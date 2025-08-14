@@ -17,6 +17,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    // 댓글 추가
     @PostMapping("/boards/{boardId}/comments")
     public String addComment(@PathVariable("boardId") Long boardId,
                              @Valid @ModelAttribute CommentDto commentDto,
@@ -34,6 +35,7 @@ public class CommentController {
         return "redirect:/boards/" + boardId;
     }
 
+    // 댓글 삭제
     @PostMapping("/comments/{commentId}/delete")
     public String deleteComment(@PathVariable("commentId") Long commentId,
                                 @Valid @ModelAttribute CommentDto commentDto,

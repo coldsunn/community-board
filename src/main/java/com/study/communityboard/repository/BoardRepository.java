@@ -2,8 +2,6 @@ package com.study.communityboard.repository;
 
 import com.study.communityboard.domain.Board;
 import com.study.communityboard.domain.Department;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,9 +11,11 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
+    List<Board> findByUser_IdOrderByCreatedAtAsc(Long userId);
+
     List<Board> findByDepartmentAndCategory_IdOrderByCreatedAtDesc(Department department, Long categoryId);
 
-    List<Board> findByUser_IdOrderByCreatedAtAsc(Long userId);
+    void deleteByUser_Id(Long userId);
 
     @Query("""
            select b from Board b

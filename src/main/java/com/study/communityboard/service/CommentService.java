@@ -7,8 +7,6 @@ import com.study.communityboard.repository.BoardRepository;
 import com.study.communityboard.repository.CommentRepository;
 import com.study.communityboard.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +21,7 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
+    // 댓글 추가
     public Long add(Long boardId, Long userId, String content) {
         Board board = boardRepository.findById(boardId).get();
         User user = userRepository.findById(userId).get();
@@ -31,15 +30,18 @@ public class CommentService {
         return commentRepository.save(comment).getId();
     }
 
+    // 댓글 삭제
     public void delete(Long commentId) {
         commentRepository.deleteById(commentId);
     }
 
+    // 게시판에서 댓글 확인
     @Transactional(readOnly = true)
     public List<Comment> listByBoard(Long boardId) {
         return commentRepository.findByBoard_IdOrderByCreatedAtAsc(boardId);
     }
 
+    // 유저의 댓글 내역 확인
     @Transactional(readOnly = true)
     public List<Comment> listByUser(Long userId) {
         return commentRepository.findByUser_IdOrderByCreatedAtAsc(userId);

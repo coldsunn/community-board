@@ -22,6 +22,7 @@ public class InitCategoryDb implements ApplicationRunner {
             return;
         }
 
+        // 애플리케이션 시작과 동시에 게시판 분류 저장 -> 쿼리 5번 나가기 때문에 구조 개선 필요
         List<Category> categories = Arrays.asList(
                 Category.builder().name("NOTICE").displayName("공지사항").build(),
                 Category.builder().name("COUNCIL_NOTICE").displayName("학생회 공지사항").build(),
@@ -32,4 +33,5 @@ public class InitCategoryDb implements ApplicationRunner {
 
         categoryRepository.saveAll(categories);
     }
+
 }

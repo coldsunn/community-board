@@ -25,11 +25,13 @@ public class UserController {
 
     private final UserService userService;
 
+    // 로그인 화면으로 이동
     @GetMapping("/auth/login")
     public String loginForm() {
         return "auth/login";
     }
 
+    // 로그인 후 홈 화면으로 이동
     @PostMapping("/auth/login")
     public String login(LoginDto loginDto, RedirectAttributes redirectAttributes) {
         User user = userService.login(loginDto.getStudentId(), loginDto.getPassword());
@@ -44,6 +46,7 @@ public class UserController {
         }
     }
 
+    // 회원가입 화면으로 이동
     @GetMapping("/auth/join")
     public String joinForm(Model model) {
         model.addAttribute("joinDto", new JoinDto());
@@ -51,6 +54,7 @@ public class UserController {
         return "auth/join";
     }
 
+    // 회원가입 후 로그인 화면으로 이동
     @PostMapping("/auth/join")
     public String join(@ModelAttribute("joinDto") @Valid JoinDto joinDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -77,6 +81,7 @@ public class UserController {
         }
     }
 
+    // 회원탈퇴 화면으로 이동
     @GetMapping("/auth/withdraw")
     public String withdrawForm(@RequestParam("userId") Long userId, Model model) {
         if (userService.getProfile(userId) == null) {
@@ -86,6 +91,7 @@ public class UserController {
         return "auth/withdraw";
     }
 
+    // 회원 탈퇴 후 초기화면으로 이동
     @PostMapping("/auth/withdraw")
     public String withdraw(@RequestParam("userId") Long userId,
                            @RequestParam("confirmText") String confirmText,

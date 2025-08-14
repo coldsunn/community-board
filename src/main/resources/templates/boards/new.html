@@ -30,7 +30,7 @@
     </div>
     <div class="d-flex justify-content-end gap-2">
       <button type="submit" class="btn btn-primary">등록</button>
-      <a class="btn btn-secondary" th:href="@{|/boards?userId=${user.id}&department=${user.department.name()}&categoryId=${category.id}|}">취소</a>
+      <a class="btn btn-secondary" th:href="@{|/boards?userId=${user.id}&categoryId=${category.id}|}">취소</a>
     </div>
   </form>
 </main>
