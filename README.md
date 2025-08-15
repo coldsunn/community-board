@@ -1,14 +1,10 @@
 # community-board
 
----
-
 개인 프로젝트 이름 : 올 게시판
 
 기간 : 2025.08.11 ~ 2025.08.14
 
 ## 프로젝트 배경, 소개
-
----
 
 배경:
 
@@ -27,8 +23,6 @@
 
 ## 스택
 
----
-
 - 프론트엔드: 부트스트랩
 - 템플릿 엔진: thymeleaf
 - 프레임워크: 자바 스프링, 스프링 부트
@@ -42,13 +36,12 @@ RDB 설계
 
 ## 주요 기능, 화면 구성
 
----
-
 - 회원가입/로그인/로그아웃
 
 <img width="1146" height="816" alt="Image" src="https://github.com/user-attachments/assets/5c9f6e12-b4e5-43e7-883f-860dae124016" />
 
-<img width="982" height="893" alt="Image" src="https://github.com/user-attachments/assets/cbf28c1b-2505-42a9-b7e4-874783e96e6a" />
+<img width="982" height="893" alt="Image" src="https://github.com/user-attachments/assets/cbf28c1b-2505-42a9-b7e4-874783e96e6a" />  
+
 
 - 학과 별 게시판 글쓰기(일반 유저의 경우 공지사항과 학생회 공지사항은 글쓰기가 제한)
 
@@ -56,15 +49,17 @@ RDB 설계
 
 <img width="2560" height="1272" alt="Image" src="https://github.com/user-attachments/assets/4df2030a-9e0e-4c54-bab1-fbdfbaae6446" />
 
-<img width="2560" height="1279" alt="Image" src="https://github.com/user-attachments/assets/24713452-cb0d-4855-9c45-35e885e0d4a2" />
-일반 유저는 글쓰기 버튼이 없음
+<img width="2560" height="1279" alt="Image" src="https://github.com/user-attachments/assets/24713452-cb0d-4855-9c45-35e885e0d4a2" />  
+일반 유저는 글쓰기 버튼이 없음  
+
 
 - 게시글 수정, 삭제, 댓글, 좋아요, 스크랩
 
 <img width="2560" height="1270" alt="Image" src="https://github.com/user-attachments/assets/f3eb37e3-88dd-428a-87a2-bdb0998291d1" />
 
-<img width="2560" height="1267" alt="Image" src="https://github.com/user-attachments/assets/822449be-faf2-4369-a737-44e48bc524b5" />
-일반 유저는 공지사항 게시글에 좋아요, 스크랩, 댓글만 가능
+<img width="2560" height="1267" alt="Image" src="https://github.com/user-attachments/assets/822449be-faf2-4369-a737-44e48bc524b5" />  
+일반 유저는 공지사항 게시글에 좋아요, 스크랩, 댓글만 가능  
+
 
 - 마이페이지(내가 쓴 글, 내가 쓴 댓글, 좋아요, 스크랩 확인)
 
